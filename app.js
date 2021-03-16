@@ -118,6 +118,8 @@ form.addEventListener('submit', searchUser);
 console.log(form);
 
 window.onload = getUsers(userersEndpoint);
+const fetchAll = document.querySelector('.btn-outline-info');
+fetchAll.addEventListener('click', () => getUsers(userersEndpoint));
 
 const onlyNames = (listOfUsers) => listOfUsers.filter((user) => user.name);
 const stringify = (listOfUsers) =>
