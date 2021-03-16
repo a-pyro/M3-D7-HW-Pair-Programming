@@ -2,24 +2,24 @@
 
 console.log('Hi there! 🔥');
 const shit = '💩',
-	fire = '🔥',
-	rocket = '🚀',
-	poudzo = '👍🏻';
+  fire = '🔥',
+  rocket = '🚀',
+  poudzo = '👍🏻';
 
 const userersEndpoint = 'https://jsonplaceholder.typicode.com/users';
 const robotSrc = 'https://robohash.org/';
 const CardComponent = ({
-	name,
-	id,
-	phone,
-	username,
-	email,
-	website,
-	company: { name: companyName, catchPhrase, bs },
-	address: { city, street, suite, zipcode, geo },
+  name,
+  id,
+  phone,
+  username,
+  email,
+  website,
+  company: { name: companyName, catchPhrase, bs },
+  address: { city, street, suite, zipcode, geo },
 }) => `
-<div class="col-6 mb-2">
-            <div class="card">
+<div class="col-2 mb-2">
+            <div class="card h-100 ">
               <img
                 src="https://robohash.org/${id}"
                 class="card-img-top img-id"
@@ -35,26 +35,26 @@ const CardComponent = ({
                   <li class="list-group-item d-none" id=${id}></li>
                 </ul>
                 <button
-                  class="btn btn-primary"
+                  class="btn btn-primary btn-block"
                   type="button"
                   data-toggle="collapse"
-                  data-target="#collapseExampleAddress"
+                  data-target="#collapseExampleAddress${id}"
                   aria-expanded="false"
-                  aria-controls="collapseExampleAddress"
+                  aria-controls="collapseExampleAddress${id}"
                 >
                   Address Details
                 </button>
                 <button
-                  class="btn btn-secondary"
+                  class="btn btn-secondary btn-block"
                   type="button"
                   data-toggle="collapse"
-                  data-target="#collapseExampleCompany"
+                  data-target="#collapseExampleCompany${id}"
                   aria-expanded="false"
-                  aria-controls="collapseExampleCompany"
+                  aria-controls="collapseExampleCompany${id}"
                 >
                   Company Details
                 </button>
-                <div class="collapse" id="collapseExampleAddress">
+                <div class="collapse" id="collapseExampleAddress${id}">
                   <div class="card card-body">
                     <ul class="list-group list-group-flush user-info">
                     <li class="list-group-item">City: ${city}</li>
@@ -66,7 +66,7 @@ const CardComponent = ({
                    </ul>
                   </div>
                 </div>
-                <div class="collapse" id="collapseExampleCompany">
+                <div class="collapse" id="collapseExampleCompany${id}">
                   <div class="card card-body company-info">
                     <ul class="list-group list-group-flush user-info">
                     <li class="list-group-item">Name: ${companyName}</li>
@@ -81,34 +81,36 @@ const CardComponent = ({
 `;
 
 const renderUsers = (data) => {
-	const row = document.getElementById('mainRow');
-	row.innerHTML = data.reduce((acc, cv) => acc + CardComponent(cv), '');
+  const row = document.getElementById('mainRow');
+  row.innerHTML = data.reduce((acc, cv) => acc + CardComponent(cv), '');
 };
 let users = [];
 const getUsers = async (endpoint) => {
-	try {
-		const respone = await fetch(endpoint);
-		const data = await respone.json();
-		console.log(data);
-		users = [...data];
-		renderUsers(users);
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    const respone = await fetch(endpoint);
+    const data = await respone.json();
+    console.log(data);
+    users = [...data];
+    renderUsers(users);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const searchUser = (e) => {
-	e.preventDefault();
-	const option = document.querySelector('.custom-select');
-	const optionValue = option.value;
-	// console.log(optionValue)
-	const search = document.querySelector('#searchbox').value.toLowerCase();
-	console.log(search);
-	console.log(optionValue);
-	const userNames = users.filter((user) => user[optionValue].toLowerCase().includes(search.toLowerCase()));
+  e.preventDefault();
+  const option = document.querySelector('.custom-select');
+  const optionValue = option.value;
+  // console.log(optionValue)
+  const search = document.querySelector('#searchbox').value.toLowerCase();
+  console.log(search);
+  console.log(optionValue);
+  const userNames = users.filter((user) =>
+    user[optionValue].toLowerCase().includes(search.toLowerCase())
+  );
 
-	console.log(userNames);
-	renderUsers(userNames);
+  console.log(userNames);
+  renderUsers(userNames);
 };
 const form = document.querySelector('.form-inline');
 form.addEventListener('submit', searchUser);
@@ -116,3 +118,7 @@ form.addEventListener('submit', searchUser);
 console.log(form);
 
 window.onload = getUsers(userersEndpoint);
+
+const onlyNames = (listOfUsers) => listOfUsers.filter((user) => user.name);
+const stringify = (listOfUsers) =>
+  listOfUsers.map((user) => JSON.stringify(user.address));
