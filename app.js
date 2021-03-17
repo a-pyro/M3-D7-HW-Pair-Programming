@@ -26,7 +26,7 @@ const CardComponent = ({
                 alt="..."
               />
               <div class="card-body">
-                <h5 class="card-title name">${name}</h5>
+                <h5 class="card-title text-center name">${name}</h5>
                 <ul class="list-group list-group-flush user-info">
                   <li class="list-group-item email"><a href="mailto:${email}">${email}</a></li>
                   <li class="list-group-item phone">${phone}</li>
@@ -115,12 +115,8 @@ const searchUser = (e) => {
 const form = document.querySelector('.form-inline');
 form.addEventListener('submit', searchUser);
 
-console.log(form);
-
 window.onload = getUsers(userersEndpoint);
 const fetchAll = document.querySelector('.btn-outline-info');
-fetchAll.addEventListener('click', () => getUsers(userersEndpoint));
+fetchAll.addEventListener('click', () => renderUsers(users));
 
 const onlyNames = (listOfUsers) => listOfUsers.filter((user) => user.name);
-const stringify = (listOfUsers) =>
-  listOfUsers.map((user) => JSON.stringify(user.address));
