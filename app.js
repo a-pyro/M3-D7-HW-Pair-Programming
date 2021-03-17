@@ -85,6 +85,7 @@ const renderUsers = (data) => {
   row.innerHTML = data.reduce((acc, cv) => acc + CardComponent(cv), '');
 };
 let users = [];
+
 const getUsers = async (endpoint) => {
   try {
     const respone = await fetch(endpoint);
@@ -120,3 +121,5 @@ const fetchAll = document.querySelector('.btn-outline-info');
 fetchAll.addEventListener('click', () => renderUsers(users));
 
 const onlyNames = (listOfUsers) => listOfUsers.filter((user) => user.name);
+// console.log(getUsers(userersEndpoint)); //
+// getUsers(userersEndpoint).then((data) => console.log(data)); // se dalla asyn ritorno i dati posso chainare il then qui, se chaino senza ritornarli mi becco undefined
